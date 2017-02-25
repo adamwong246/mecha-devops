@@ -1,19 +1,17 @@
 {
-  "name": "mecha-devops",
-  "version": "0.0.1",
-  "description": "a cicd server",
-  "main": "index.js",
+  "name": "mechadevops",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "jest"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/adamwong246/mecha-devops.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/adamwong246/mecha-devops/issues"
-  },
-  "homepage": "https://github.com/adamwong246/mecha-devops#readme"
+  "dependencies": {
+    "body-parser": "~1.16.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "express": "~4.14.1",
+    "morgan": "~1.7.0",
+    "pug": "~2.0.0-beta10",
+    "serve-favicon": "~2.3.2"
+  }
 }
