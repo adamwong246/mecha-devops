@@ -7,8 +7,11 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var fakewebhook = require('./routes/fakewebhook');
 
 var app = express();
+
+const db = require('./db')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,12 +21,46 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/fakewebhook', fakewebhook);
+
+// app.post('/webhook',function(e, q, r, n) {
+//    if token does not match
+//      respond "Token unrecongnized"
+//      break
+//   else
+//     respond "I recognize your webhook"
+//
+//     cIDs.forEach(function(cid, ndx){
+//       if (res.cIds == cid){
+//         if isPrCreation(res)
+//           github-messsage-pr(res.PR) "I recieved your PR request. Waiting for initial reviewers or just say \"no reviewers\" "
+//         else
+//           if isPrUpdate(res)
+//             if isPrNewReviewer(res)
+//               inform reviewer
+//             else
+//               if isPrReviewDone(res)
+//                 github message pr "all reviewers approved. Now running tests..."
+//                   for each step,
+//                     mechanize(cid, sha, step)
+//
+//                   inform locker of results, providing "button" if successfull
+//       } else {
+//         not one of my repos
+//       }
+//    })
+//
+//
+
+// TODO git-backed self hosting
+// if the the 'data' changes, persist the file
+// if the source file changes, update the database
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

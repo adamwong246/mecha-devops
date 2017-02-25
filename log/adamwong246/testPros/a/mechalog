@@ -1,0 +1,27 @@
+cd ./pen/testPros;  git pull origin master;  docker build -t adamwong246/testpros . && mkdir -p ./log/adamwong246/testPros/a && docker attach $(docker run -i -d adamwong246/testpros npm run lint) &> ./log/adamwong246/testPros/a/lint.log && mkdir -p ./log/adamwong246/testPros/a && docker attach $(docker run -i -d adamwong246/testpros npm run test) &> ./log/adamwong246/testPros/a/test.log
+Already up-to-date.
+Sending build context to Docker daemon    64 kB
+Step 1/7 : FROM node:boron
+ ---> e0fb852254e6
+Step 2/7 : RUN mkdir -p /usr/src/app
+ ---> Using cache
+ ---> fea002f93e27
+Step 3/7 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> d71cad44a7ee
+Step 4/7 : COPY package.json /usr/src/app/
+ ---> Using cache
+ ---> c7ae3b1c3c23
+Step 5/7 : RUN npm install
+ ---> Using cache
+ ---> 2fed4d98f174
+Step 6/7 : COPY . /usr/src/app
+ ---> a88c360905bd
+Removing intermediate container cbef740ff240
+Step 7/7 : EXPOSE 8080
+ ---> Running in 324059c301b2
+ ---> 4643fa7abd3d
+Removing intermediate container 324059c301b2
+Successfully built 4643fa7abd3d
+From github.com:adamwong246/testPros
+ * branch            master     -> FETCH_HEAD
