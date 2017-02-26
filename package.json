@@ -18,6 +18,7 @@
     "express": "~4.14.1",
     "filendir": "^1.0.0",
     "jest": "^19.0.2",
+    "jstransformer-markdown-it": "^2.0.0",
     "morgan": "~1.7.0",
     "pug": "~2.0.0-beta10",
     "sanitize-filename": "^1.6.1",

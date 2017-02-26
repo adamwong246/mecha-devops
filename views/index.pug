@@ -1,6 +1,20 @@
 extends layout
 
 block content
+  :markdown-it(linkify langPrefix='highlight-')
+    # MechaDevOps
+    ## getting started
+    mechaDevOps is *really* simple continuous and integration server. I *integrate* changes to be made and and I *deploy* the changes made to a git branch.
+
+    - Add me as a collaborator on your GH project and setup a webhook to the xxx.token.
+    - Create a CICD instance on MechaDevops. You will need the specify:
+      - What is the repo and branch to watch?
+      - How should this branch be protected?
+      - What should I do when this branch changes?
+      - ~~How should logs be hosted?~~ For now, static files
+    - Open a PR and I will run my tests against your changes, then post my results on the PR thread.
+    - When I detect a change in the origin, I will pull the changes and run a specifed deploy command.
+
   each conf, repo in db.cIDs
     h3= repo
     a(href=`/log/${repo.replace(/[^a-z0-9]/gi, '_').toLowerCase() }`) cached builds
@@ -18,10 +32,10 @@ block content
     form(action="/fakewebhook" method="POST")
       input(type="text" name="sha" placeholder="sha")
       input(type="hidden" name="repo" value=repo)
-      input(type="submit" value="execute build against SHA")
+      input(type="submit" value="test: execute build against SHA")
     h4 post-merge hook
     pre
       code= conf.hook
     form(action='refresh' method="POST")
       input(type="hidden" name="repo" value=repo)
-      input(type="submit" value="git fetch, pull, and deploy!")
+      input(type="submit" value="test: git fetch, pull, and deploy!")
