@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var fakewebhook = require('./routes/fakewebhook');
+var webhook = require('./routes/webhook');
 var log = require('./routes/log');
 
 var app = express();
@@ -29,33 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/fakewebhook', fakewebhook);
+app.use('/webhook', webhook)
+
 app.use('/log', log);
-
-
 express.static.mime.define({'text/plain': ['cmd', 'log', 'err']});
 app.use('/log', express.static(path.join(__dirname, 'log')));
-
-app.post('/webhook',function(e, q, r, n) {})
-  //
-  // cIDs.forEach(function(cid, ndx){
-  //   if (res.cIds == cid){
-  //     if isPrCreation(res)
-  //       github-messsage-pr(res.PR) "I recieved your PR request. Waiting for initial reviewers or just say \"no reviewers\" "
-  //     else
-  //       if isPrUpdate(res)
-  //         if isPrNewReviewer(res)
-  //           inform reviewer
-  //         else
-  //           if isPrReviewDone(res)
-  //             github message pr "all reviewers approved. Now running tests..."
-  //               for each step,
-  //                 mechanize(cid, sha, step)
-  //
-  //               inform locker of results, providing "button" if successfull
-
-// TODO git-backed self hosting
-// if the the 'data' changes, persist the file
-// if the source file changes, update the database
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
