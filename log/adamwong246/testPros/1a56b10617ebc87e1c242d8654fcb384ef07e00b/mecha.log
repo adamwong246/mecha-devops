@@ -1,0 +1,24 @@
+M	package.json
+Sending build context to Docker daemon 65.02 kB
+Step 1/7 : FROM node:boron
+ ---> e0fb852254e6
+Step 2/7 : RUN mkdir -p /usr/src/app
+ ---> Using cache
+ ---> fea002f93e27
+Step 3/7 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> d71cad44a7ee
+Step 4/7 : COPY package.json /usr/src/app/
+ ---> Using cache
+ ---> 9fd0d88aecb6
+Step 5/7 : RUN npm install
+ ---> Using cache
+ ---> 0619b878c14f
+Step 6/7 : COPY . /usr/src/app
+ ---> d41a23495a35
+Removing intermediate container 0b6424e51d82
+Step 7/7 : EXPOSE 8080
+ ---> Running in b1d8b9f223c1
+ ---> 3b405a378266
+Removing intermediate container b1d8b9f223c1
+Successfully built 3b405a378266

@@ -1,0 +1,1 @@
+mkdir -p ./log/adamwong246/testPros/as;  cd pen/testPros;  git pull origin master;  docker build -t adamwong246/testpros . && docker attach $(docker run -i -d adamwong246/testpros npm run lint) &> ../../log/adamwong246/testPros/as/lint.log && docker attach $(docker run -i -d adamwong246/testpros npm run test) &> ../../log/adamwong246/testPros/as/test.log

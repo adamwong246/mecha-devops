@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var fakewebhook = require('./routes/fakewebhook');
+var log = require('./routes/log');
 
 var app = express();
 
@@ -28,6 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/fakewebhook', fakewebhook);
+app.use('/log', log);
+
+
+express.static.mime.define({'text/plain': ['cmd', 'log', 'err']});
+app.use('/log', express.static(path.join(__dirname, 'log')));
 
 // app.post('/webhook',function(e, q, r, n) {
 //    if token does not match

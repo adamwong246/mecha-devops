@@ -1,14 +1,25 @@
 extends layout
 
 block content
-  h1= title
   each conf, repo in db.cIDs
-    h2= repo
-    each filter in conf.filters
-      h3= filter.name
-      p= filter.cmd
-      form(action="/fakewebhook" method="POST")
-        input(type="text" name="sha" placeholder="sha")
-        input(type="hidden" name="repo" value=repo)
-        input(type="hidden" name="filter" value=filter.name)
-        input(type="submit")
+    h3= repo
+    a(href=`/log/${repo.split('.git')[0]}`) cached builds
+    table
+      thead
+        tr
+          th name
+          th cmd
+      tbody
+        each filter in conf.filters
+          tr
+            td= filter.name
+            td
+              code= filter.cmd
+    h4 rerun on SHA
+    form(action="/fakewebhook" method="POST")
+      input(type="text" name="sha" placeholder="sha")
+      input(type="hidden" name="repo" value=repo)
+      input(type="submit")
+    h4 post-merge hook
+    pre
+      code= conf.hook

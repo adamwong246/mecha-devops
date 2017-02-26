@@ -1,0 +1,11 @@
+npm info it worked if it ends with ok
+npm info using npm@3.10.10
+npm info using node@v6.10.0
+npm info lifecycle test-proj@1.0.0~prelint: test-proj@1.0.0
+npm info lifecycle test-proj@1.0.0~lint: test-proj@1.0.0
+
+> test-proj@1.0.0 lint /usr/src/app
+> eslint __tests__
+
+npm info lifecycle test-proj@1.0.0~postlint: test-proj@1.0.0
+npm info ok 
