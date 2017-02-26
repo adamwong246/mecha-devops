@@ -15,11 +15,13 @@ block content
             td= filter.name
             td
               code= filter.cmd
-    h4 rerun on SHA
     form(action="/fakewebhook" method="POST")
       input(type="text" name="sha" placeholder="sha")
       input(type="hidden" name="repo" value=repo)
-      input(type="submit")
+      input(type="submit" value="execute build against SHA")
     h4 post-merge hook
     pre
       code= conf.hook
+    form(action='refresh' method="POST")
+      input(type="hidden" name="repo" value=repo)
+      input(type="submit" value="git fetch, pull, and deploy!")

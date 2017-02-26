@@ -35,34 +35,23 @@ app.use('/log', log);
 express.static.mime.define({'text/plain': ['cmd', 'log', 'err']});
 app.use('/log', express.static(path.join(__dirname, 'log')));
 
-// app.post('/webhook',function(e, q, r, n) {
-//    if token does not match
-//      respond "Token unrecongnized"
-//      break
-//   else
-//     respond "I recognize your webhook"
-//
-//     cIDs.forEach(function(cid, ndx){
-//       if (res.cIds == cid){
-//         if isPrCreation(res)
-//           github-messsage-pr(res.PR) "I recieved your PR request. Waiting for initial reviewers or just say \"no reviewers\" "
-//         else
-//           if isPrUpdate(res)
-//             if isPrNewReviewer(res)
-//               inform reviewer
-//             else
-//               if isPrReviewDone(res)
-//                 github message pr "all reviewers approved. Now running tests..."
-//                   for each step,
-//                     mechanize(cid, sha, step)
-//
-//                   inform locker of results, providing "button" if successfull
-//       } else {
-//         not one of my repos
-//       }
-//    })
-//
-//
+app.post('/webhook',function(e, q, r, n) {})
+  //
+  // cIDs.forEach(function(cid, ndx){
+  //   if (res.cIds == cid){
+  //     if isPrCreation(res)
+  //       github-messsage-pr(res.PR) "I recieved your PR request. Waiting for initial reviewers or just say \"no reviewers\" "
+  //     else
+  //       if isPrUpdate(res)
+  //         if isPrNewReviewer(res)
+  //           inform reviewer
+  //         else
+  //           if isPrReviewDone(res)
+  //             github message pr "all reviewers approved. Now running tests..."
+  //               for each step,
+  //                 mechanize(cid, sha, step)
+  //
+  //               inform locker of results, providing "button" if successfull
 
 // TODO git-backed self hosting
 // if the the 'data' changes, persist the file
