@@ -3,7 +3,7 @@ var router = express.Router();
 
 var fs = require('fs');
 
-const db = require('.././db')
+const mechaConf = require('../mechafile.json')
 
 var repo2Path = require("../repo2Path");
 

@@ -4,21 +4,11 @@ block content
   :markdown-it(linkify langPrefix='highlight-')
     # MechaDevOps
     ## getting started
-    mechaDevOps is *really* simple continuous and integration server. I *integrate* changes to be made and and I *deploy* the changes made to a git branch.
+    mechaDevOps is *really* simple continuous and integration server. For a specified repo and branch
+    1. I run tests against someother SHA
+    2. I run a deployment hook for every commit
 
-    - Create a CICD instance on MechaDevops. You will need the specify:
-      - What is the repo and branch to watch?
-      - What tests should I run to protect this branch?
-      - What should I do when this branch changes?
-      - ~~How should logs be hosted?~~ For now, static files
-      - Should I act as collaborator on github or admin of a vanilla git server?
-        - If GH collaborator, add me as a collaborator on your GH project and setup a webhook to the xxx.token.
-    - Open a PR and I will run my tests against your changes, then post my results.
-      - If I'm acting as a GH collaborator, I'll post my results on the thread.
-      - If I'm acting as a git admin, I'll just send you an email.
-    - When I detect a change in the origin, I will pull the changes and run a specifed deploy command.
-
-  each conf, repo in db.cIDs
+  each conf, repo in mechaConf.cIDs
     h3= repo
     table
       tbody

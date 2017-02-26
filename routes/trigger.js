@@ -4,7 +4,7 @@
 var express = require('express');
 var router = express.Router();
 
-const db = require('.././db')
+const mechaConf = require('../mechafile.json')
 
 // var filendir = require('filendir');
 // var repo2Path = require("../repo2Path");
@@ -21,7 +21,7 @@ const db = require('.././db')
 //   git checkout ${sha} &&\
 //   docker build -t ${dockerImage} .`
 //
-//   command = command + " && " + db.cIDs[cid].filters.map(function(fltr, ndx){
+//   command = command + " && " + mechaConf.cIDs[cid].filters.map(function(fltr, ndx){
 //     return `docker attach $(docker run -i -d ${dockerImage} ${fltr.cmd}) &> ../../log/${path}/${sha}/${fltr.name}.out`
 //   }).join(' && ');
 //

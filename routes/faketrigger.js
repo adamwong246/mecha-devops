@@ -4,7 +4,7 @@ const exec = require('child_process').exec;
 var express = require('express');
 var router = express.Router();
 
-const db = require('.././db')
+const mechaConf = require('../mechafile.json')
 
 var filendir = require('filendir');
 var repo2Path = require("../repo2Path");
@@ -16,7 +16,7 @@ const mechanize = function(cid, sha, filter){
   var command = `git fetch origin &&\
   git checkout ${sha}`
 
-  command = command + " && " + db.cIDs[cid].hook
+  command = command + " && " + mechaConf.cIDs[cid].hook
 
   console.log(command)
   exec(command , (error, stdout, stderr) => {
@@ -30,7 +30,6 @@ const mechanize = function(cid, sha, filter){
     } else {
       console.log(`build for ${sha} succeeded!`);
     }
-
   });
 }
 

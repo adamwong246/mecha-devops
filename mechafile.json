@@ -1,6 +1,6 @@
-const db = {
-  token: "token",
-  cIDs:
+{
+  "token": "token",
+  "cIDs":
     {
       "github.com:adamwong246/testPros.git#master": {
         "filters" : [
@@ -16,6 +16,4 @@ const db = {
         "hook": "echo FOO!"
       }
     }
-};
-
-module.exports = db;
+}

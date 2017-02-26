@@ -15,7 +15,7 @@ var log = require('./routes/log');
 
 var app = express();
 
-const db = require('./db')
+const mechaConf = require('./mechafile.json')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,3 +1,5 @@
 node_modules
 pen/nohup.out
 log/**
+mechafile.json
+npm-debug.log

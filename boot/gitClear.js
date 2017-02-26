@@ -1,9 +1,9 @@
 const exec = require('child_process').exec;
 
-const db = require('./../db')
+const mechaConf = require('./../mechafile.json')
 const repo2path = require('./../repo2path')
 
-Object.keys(db.cIDs).forEach(function(cID){
+Object.keys(mechaConf.cIDs).forEach(function(cID){
   const path = repo2path(cID);
   const url = cID.split('#')[0]
   const command = `rm -rf pen/**; git clone git@${url} ./pen/${path}`
