@@ -6,36 +6,37 @@ block content
     ## getting started
     mechaDevOps is *really* simple continuous and integration server. I *integrate* changes to be made and and I *deploy* the changes made to a git branch.
 
-    - Add me as a collaborator on your GH project and setup a webhook to the xxx.token.
     - Create a CICD instance on MechaDevops. You will need the specify:
       - What is the repo and branch to watch?
-      - How should this branch be protected?
+      - What tests should I run to protect this branch?
       - What should I do when this branch changes?
       - ~~How should logs be hosted?~~ For now, static files
-    - Open a PR and I will run my tests against your changes, then post my results on the PR thread.
+      - Should I act as collaborator on github or admin of a vanilla git server?
+        - If GH collaborator, add me as a collaborator on your GH project and setup a webhook to the xxx.token.
+    - Open a PR and I will run my tests against your changes, then post my results.
+      - If I'm acting as a GH collaborator, I'll post my results on the thread.
+      - If I'm acting as a git admin, I'll just send you an email.
     - When I detect a change in the origin, I will pull the changes and run a specifed deploy command.
 
   each conf, repo in db.cIDs
     h3= repo
-    a(href=`/log/${repo.replace(/[^a-z0-9]/gi, '_').toLowerCase() }`) cached builds
     table
-      thead
-        tr
-          th name
-          th cmd
       tbody
-        each filter in conf.filters
-          tr
-            td= filter.name
-            td
-              code= filter.cmd
-    form(action="/fakewebhook" method="POST")
-      input(type="text" name="sha" placeholder="sha")
-      input(type="hidden" name="repo" value=repo)
-      input(type="submit" value="test: execute build against SHA")
-    h4 post-merge hook
-    pre
-      code= conf.hook
-    form(action='refresh' method="POST")
-      input(type="hidden" name="repo" value=repo)
-      input(type="submit" value="test: git fetch, pull, and deploy!")
+        tr
+          td
+            a(href=`/log/${repo.replace(/[^a-z0-9]/gi, '_').toLowerCase() }`) logs by SHA
+          td
+            ul
+              each filter in conf.filters
+                li= filter.name
+            form(action="/fakewebhook" method="POST")
+              input(type="text" name="sha" placeholder="sha" value="master")
+              input(type="hidden" name="repo" value=repo)
+              input(type="submit" value="test: execute build against SHA")
+          td
+            pre
+              code= conf.hook
+            form(action='refresh' method="POST")
+              input(type="hidden" name="repo" value=repo)
+              input(type="submit" value="test: git fetch, pull, and deploy!")
+    hr

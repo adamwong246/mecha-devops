@@ -1,0 +1,2 @@
+Error: Command failed: rm -rf ./log/github_com_adamwong246_dotfiles_git_master/master;  mkdir -p ./log/github_com_adamwong246_dotfiles_git_master/master;  cd ./pen/github_com_adamwong246_dotfiles_git_master &&  git fetch origin &&  git checkout master &&  docker build -t github_com_adamwong246_dotfiles_git_master . && docker attach $(docker run -i -d github_com_adamwong246_dotfiles_git_master echo foo) &> ../../log/github_com_adamwong246_dotfiles_git_master/master/foo.log
+/bin/sh: line 0: cd: ./pen/github_com_adamwong246_dotfiles_git_master: No such file or directory

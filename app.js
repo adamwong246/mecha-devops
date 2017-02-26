@@ -33,7 +33,7 @@ app.use('/fakewebhook', fakewebhook);
 app.use('/webhook', webhook)
 
 app.use('/log', log);
-express.static.mime.define({'text/plain': ['cmd', 'log', 'err']});
+express.static.mime.define({'text/plain': ['cmd', 'out', 'err']});
 app.use('/log', express.static(path.join(__dirname, 'log')));
 
 // catch 404 and forward to error handler

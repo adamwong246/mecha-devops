@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+
     "test": "mocha --timeout 10000",
     "start": "nodemon ./bin/www",
-    "start-with-git-clone": "node boot.js && nodemon ./bin/www",
-    "start-with-cleared-logs": "node boot1.js && nodemon ./bin/www",
-    "boot": "node boot.js && nodemon boot1.js && nodemon ./bin/www",
-    "clone-repos": "node boot.js",
-    "clear-logs": "node boot1.js"
+
+    "boot": "node boot/gitClear && nodemon boot/logClear.js && nodemon ./bin/www",
+
+    "start-with-git-clone": "node boot/gitClear.js && nodemon ./bin/www",
+    "start-with-cleared-logs": "node boot/logClear.js && nodemon ./bin/www",
+
+    "clone-repos": "node boot/gitClear.js",
+    "clear-logs": "node boot/logClear.js"
   },
   "dependencies": {
     "body-parser": "^1.16.1",

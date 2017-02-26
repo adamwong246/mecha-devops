@@ -1,6 +1,3 @@
-//During the test the env variable is set to test
-// process.env.NODE_ENV = 'test';
-
 let chai = require('chai');
 let should = chai.should();
 let chaiHttp = require('chai-http');
@@ -25,7 +22,9 @@ describe('Routes', () => {
         chai.request(app)
             .post('/webhook')
             .end((err, res) => {
+              // console.log(res)
               res.should.have.status(200);
+              res.should.be.html;
               done();
             });
       });

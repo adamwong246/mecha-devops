@@ -18,20 +18,26 @@ const mechanize = function(cid, sha, filter){
   mkdir -p ${logsFolder};\
   cd ./pen/${path} &&\
   git fetch origin &&\
-  git checkout master &&\
+  git checkout ${sha} &&\
   docker build -t ${dockerImage} .`
 
   command = command + " && " + db.cIDs[cid].filters.map(function(fltr, ndx){
-    return `docker attach $(docker run -i -d ${dockerImage} ${fltr.cmd}) &> ../../log/${path}/${sha}/${fltr.name}.log`
+    return `docker attach $(docker run -i -d ${dockerImage} ${fltr.cmd}) &> ../../log/${path}/${sha}/${fltr.name}.out`
   }).join(' && ');
 
+  console.log(command)
   exec(command , (error, stdout, stderr) => {
-    filendir.writeFile(`${logsFolder}/mecha.cmd`, command, function(){})
-    filendir.writeFile(`${logsFolder}/mecha.stdout`, stdout, function(){})
-    filendir.writeFile(`${logsFolder}/mecha.stderr`, stderr, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.cmd`, `${command}`, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.log.out`, stdout, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.log.err`, stderr, function(){})
+
     if (error != null){
       filendir.writeFile(`${logsFolder}/mecha.err`, error.toString(), function(){})
+      console.log(`build for ${sha} failed`);
+    } else {
+      console.log(`build for ${sha} succeeded!`);
     }
+
   });
 }
 
