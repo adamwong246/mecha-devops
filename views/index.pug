@@ -3,7 +3,7 @@ extends layout
 block content
   each conf, repo in db.cIDs
     h3= repo
-    a(href=`/log/${repo.split('.git')[0]}`) cached builds
+    a(href=`/log/${repo.replace(/[^a-z0-9]/gi, '_').toLowerCase() }`) cached builds
     table
       thead
         tr

@@ -8,12 +8,12 @@ npm info lifecycle test-proj@1.0.0~test: test-proj@1.0.0
 > jest
 
  PASS  __tests__/0.js
-  ✓ adds 1 + 2 to equal 3 (5ms)
+  ✓ adds 1 + 2 to equal 3 (4ms)
 
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
 Snapshots:   0 total
-Time:        1.697s
+Time:        1.801s
 Ran all test suites.
 npm info lifecycle test-proj@1.0.0~posttest: test-proj@1.0.0
 npm info ok 

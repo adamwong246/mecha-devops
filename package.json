@@ -5,8 +5,11 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon ./bin/www",
-    "boot": "nodemon boot.js & nodemon ./bin/www",
-    "boot1": "nodemon boot1.js & nodemon ./bin/www"
+    "start-with-git-clone": "node boot.js && nodemon ./bin/www",
+    "start-with-cleared-logs": "node boot1.js && nodemon ./bin/www",
+    "boot": "node boot.js && nodemon boot1.js && nodemon ./bin/www",
+    "clone-repos": "node boot.js",
+    "clear-logs": "node boot1.js"
   },
   "dependencies": {
     "body-parser": "^1.16.1",
@@ -17,12 +20,16 @@
     "jest": "^19.0.2",
     "morgan": "~1.7.0",
     "pug": "~2.0.0-beta10",
+    "sanitize-filename": "^1.6.1",
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "/pen/"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/pen/"
+    ]
   }
 }

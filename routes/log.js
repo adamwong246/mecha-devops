@@ -5,22 +5,25 @@ var fs = require('fs');
 
 const db = require('.././db')
 
-router.get('/:user/:repo/:sha', function(req, res) {
-  console.log("sha logger")
+var repo2Path = require("../repo2Path");
+
+router.get('/:repo/:sha', function(req, res) {
+  const repo = req.params.repo;
   res.render('log', {
    params: req.params,
-   logFiles: fs.readdirSync(`./log/${req.params.user}/${req.params.repo}/${req.params.sha}`).map(function(l){
-    return `/log/${req.params.user}/${req.params.repo}/${req.params.sha}/${l}`
+   logFiles: fs.readdirSync(`./log/${repo2Path(repo)}/${req.params.sha}`).map(function(l){
+    return `/log/${repo2Path(repo)}/${req.params.sha}/${l}`
    })
   });
 
 });
 
-router.get('/:user/:repo', function(req, res) {
+router.get('/:repo', function(req, res) {
+  const repo = req.params.repo;
   res.render('log', {
    params: req.params,
-   logFiles: fs.readdirSync(`./log/${req.params.user}/${req.params.repo}`).map(function(l){
-    return `/log/${req.params.user}/${req.params.repo}/${l}`
+   logFiles: fs.readdirSync(`./log/${repo2Path(repo)}`).map(function(l){
+    return `/log/${repo2Path(repo)}/${l}`
    })
   });
 });
