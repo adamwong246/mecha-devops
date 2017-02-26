@@ -36,7 +36,8 @@ block content
           td
             pre
               code= conf.hook
-            form(action='refresh' method="POST")
+            form(action='faketrigger' method="POST")
+              input(type="text" name="sha" placeholder="sha" value="master")
               input(type="hidden" name="repo" value=repo)
               input(type="submit" value="test: git fetch, pull, and deploy!")
     hr

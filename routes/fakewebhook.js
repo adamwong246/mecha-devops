@@ -27,12 +27,12 @@ const mechanize = function(cid, sha, filter){
 
   console.log(command)
   exec(command , (error, stdout, stderr) => {
-    filendir.writeFile(`${logsFolder}/mecha.cmd`, `${command}`, function(){})
-    filendir.writeFile(`${logsFolder}/mecha.log.out`, stdout, function(){})
-    filendir.writeFile(`${logsFolder}/mecha.log.err`, stderr, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.integrate.cmd`, `${command}`, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.integrate.log.out`, stdout, function(){})
+    filendir.writeFile(`${logsFolder}/mecha.integrate.log.err`, stderr, function(){})
 
     if (error != null){
-      filendir.writeFile(`${logsFolder}/mecha.err`, error.toString(), function(){})
+      filendir.writeFile(`${logsFolder}/mecha.integrate.err`, error.toString(), function(){})
       console.log(`build for ${sha} failed`);
     } else {
       console.log(`build for ${sha} succeeded!`);

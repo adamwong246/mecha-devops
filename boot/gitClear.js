@@ -1,6 +1,7 @@
-const db = require('./db')
 const exec = require('child_process').exec;
-const repo2path = require('./repo2path')
+
+const db = require('./../db')
+const repo2path = require('./../repo2path')
 
 Object.keys(db.cIDs).forEach(function(cID){
   const path = repo2path(cID);
