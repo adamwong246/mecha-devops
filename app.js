@@ -12,6 +12,7 @@ var webhook = require('./routes/webhook');
 var faketrigger = require('./routes/faketrigger');
 var trigger = require('./routes/trigger');
 var log = require('./routes/log');
+var cid = require('./routes/cid');
 
 var app = express();
 
@@ -37,8 +38,10 @@ app.use('/faketrigger', faketrigger);
 app.use('/trigger', trigger)
 
 app.use('/log', log);
-express.static.mime.define({'text/plain': ['cmd', 'out', 'err']});
+express.static.mime.define({'text/plain': ['cmd', 'out', 'err', 'exit']});
 app.use('/log', express.static(path.join(__dirname, 'log')));
+
+app.use('/cid', cid);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

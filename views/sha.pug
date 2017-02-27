@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  p
+    a(href=`/log/${domain}/${repo}/${branch}/${sha}`) logs
+  h2
+    =domain.replace('_', ".")
+    |/
+    =repo.replace('_', "/")
+    |#
+    =branch
+    =" vs. "
+    =sha
+
+  section
+    h4 filters
+    table
+      tbody
+        for filterResult in filterResults
+          tr
+            td
+              h5= filterResult.name
+            td
+              code= filterResult.cmd
+            td
+              if filterResult.exit == 0
+                span= "success: "
+              else
+                span= "failure: "
+
+              code= filterResult.exit
+            td
+              pre
+                code= filterResult.log
+
+  h3 force run
+  form(action="/fakewebhook" method="POST")
+    input(type="text" name="sha" placeholder="sha" value=sha)
+    input(type="text" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
+    input(type="submit" value=`submit`)
+
+  h3 command
+  code= cmd
+
+  .container
+    .item
+      h3 stout
+      pre
+        code= stdout
+
+    .item
+      h3 stderr
+      pre
+        code= stderr

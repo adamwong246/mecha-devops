@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  p
+    a(href=`/log/${params.domain}/${params.repo}/${params.branch}`) logs
+  h1= repo
+  table
+    tbody
+      tr
+        td
+          ul
+            each filter in cid.filters
+              li= filter.name
+          form(action="/fakewebhook" method="POST")
+            input(type="text" name="sha" placeholder="sha" value="master")
+            input(type="text" name="repo" value=repo)
+            input(type="submit" value="execute tests against SHA")
+        td
+          pre
+            code= cid.hook
+          form(action='faketrigger' method="POST")
+            input(type="text" name="sha" placeholder="sha" value="master")
+            input(type="text" name="repo" value=repo)
+            input(type="submit" value="git fetch, pull, and deploy")
+  h2 more builds
+  ul
+    each build in builds
+      li
+        a(href=`/cid/${params.domain}/${params.repo}/${params.branch}/${build}`)=build

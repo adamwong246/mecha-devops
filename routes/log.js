@@ -7,23 +7,27 @@ const mechaConf = require('../mechafile.json')
 
 var repo2Path = require("../repo2Path");
 
-router.get('/:repo/:sha', function(req, res) {
+router.get('/:domain/:repo/:branch/:sha', function(req, res) {
+  const domain = req.params.domain;
   const repo = req.params.repo;
+  const branch = req.params.branch;
+  const sha = req.params.sha;
   res.render('log', {
    params: req.params,
-   logFiles: fs.readdirSync(`./log/${repo2Path(repo)}/${req.params.sha}`).map(function(l){
-    return `/log/${repo2Path(repo)}/${req.params.sha}/${l}`
+   logFiles: fs.readdirSync(`./log/${domain}/${repo}/${branch}/${sha}`).map(function(l){
+    return `/log/${domain}/${repo}/${branch}/${sha}/${l}`
    })
   });
-
 });
 
-router.get('/:repo', function(req, res) {
+router.get('/:domain/:repo/:branch', function(req, res) {
+  const domain = req.params.domain;
   const repo = req.params.repo;
+  const branch = req.params.branch;
   res.render('log', {
    params: req.params,
-   logFiles: fs.readdirSync(`./log/${repo2Path(repo)}`).map(function(l){
-    return `/log/${repo2Path(repo)}/${l}`
+   logFiles: fs.readdirSync(`./log/${domain}/${repo}/${branch}`).map(function(l){
+    return `/log/${domain}/${repo}/${branch}/${l}`
    })
   });
 });

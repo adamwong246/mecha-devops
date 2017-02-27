@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1
+    = params.repo
+    | <~
+    = params.sha
+  h2 command
+  pre
+    code= cmd
+  h2 stdout
+  pre
+    code= stdout
+  h2 stderr
+  pre
+    code= stderr
+  h2 filter logs
+  ul
+    each log in logFiles
+      li
+        a(href=log)= log

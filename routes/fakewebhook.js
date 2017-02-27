@@ -22,7 +22,7 @@ const mechanize = function(cid, sha, filter){
   docker build -t ${dockerImage} .`
 
   command = command + " && " + mechaConf.cIDs[cid].filters.map(function(fltr, ndx){
-    return `docker attach $(docker run -i -d ${dockerImage} ${fltr.cmd}) &> ../../log/${path}/${sha}/${fltr.name}.out`
+    return `docker attach $(docker run -i -d ${dockerImage} ${fltr.cmd}) &> ../../../../log/${path}/${sha}/${fltr.name}.out && echo $? > ../../../../log/${path}/${sha}/${fltr.name}.exit`
   }).join(' && ');
 
   console.log(command)
@@ -43,9 +43,10 @@ const mechanize = function(cid, sha, filter){
 
 /* POST fakewebhook page. */
 router.post('/', function(req, res) {
+  console.log(req.body)
   const sha = req.body.sha.trim();
   if (sha != '') {
-    mechanize(req.body.repo, sha, req.body.filter)
+    mechanize(req.body.repo, sha)
     res.redirect(`/log/${repo2Path(req.body.repo)}/${sha}/`)
   }
 

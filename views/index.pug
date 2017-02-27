@@ -9,25 +9,26 @@ block content
     2. I run a deployment hook for every commit
 
   each conf, repo in mechaConf.cIDs
-    h3= repo
-    table
-      tbody
-        tr
-          td
-            a(href=`/log/${repo.replace(/[^a-z0-9]/gi, '_').toLowerCase() }`) logs by SHA
-          td
-            ul
-              each filter in conf.filters
-                li= filter.name
-            form(action="/fakewebhook" method="POST")
-              input(type="text" name="sha" placeholder="sha" value="master")
-              input(type="hidden" name="repo" value=repo)
-              input(type="submit" value="test: execute build against SHA")
-          td
-            pre
-              code= conf.hook
-            form(action='faketrigger' method="POST")
-              input(type="text" name="sha" placeholder="sha" value="master")
-              input(type="hidden" name="repo" value=repo)
-              input(type="submit" value="test: git fetch, pull, and deploy!")
-    hr
+    h3
+      a(href=`/cid/${repo2Path(repo)}`)= repo
+    //- table
+    //-   tbody
+    //-     tr
+    //-       td
+    //-         a(href=`/log/${repo2Path(repo)}`) logs
+    //-       td
+    //-         ul
+    //-           each filter in conf.filters
+    //-             li= filter.name
+    //-         form(action="/fakewebhook" method="POST")
+    //-           input(type="text" name="sha" placeholder="sha" value="master")
+    //-           input(type="text" name="repo" value=repo)
+    //-           input(type="submit" value="execute tests against SHA")
+    //-       td
+    //-         pre
+    //-           code= conf.hook
+    //-         form(action='faketrigger' method="POST")
+    //-           input(type="text" name="sha" placeholder="sha" value="master")
+    //-           input(type="text" name="repo" value=repo)
+    //-           input(type="submit" value="git fetch, pull, and deploy")
+    //- hr
