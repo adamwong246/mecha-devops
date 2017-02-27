@@ -19,15 +19,13 @@ router.get('/:domain/:repo/:branch', function(req, res) {
    repo: path2repo(domain, repo, branch),
    repo2Path: repo2Path,
    path2repo: path2repo,
-   builds: fs.readdirSync(`./log/${domain}/${repo}/${branch}`),
-
-  //  stdout: fs.readFileSync(`./log/${repo2Path(repo)}/${req.params.sha} /mecha.integrate.log.out`),
-  //  stderr: fs.readFileSync(`./log/${repo2Path(repo)}/${req.params.sha}/mecha.integrate.log.err`),
-  //  logs: fs.readdirSync(`./log/${repo2Path(repo)}/${req.params.sha}/`).map(function(l){
-  //   return `/log/${repo2Path(repo)}/${req.params.sha}/${l}`
-  // }).filter(function(l){
-  //   return !l.match('\/mecha.')
-  //  })
+   builds: function(){
+     try {
+       return fs.readdirSync(`./log/${domain}/${repo}/${branch}`)
+     } catch (err) {
+       return []
+     }
+   }()
  });
 })
 
@@ -60,9 +58,9 @@ router.get('/:domain/:repo/:branch/:sha', function(req, res) {
      repo: repo,
      sha: sha,
      branch: branch,
-     cmd: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/mecha.integrate.cmd`),
-     stdout: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/mecha.integrate.log.out`),
-     stderr: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/mecha.integrate.log.err`),
+     cmd: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.cmd`),
+     stdout: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.out`),
+     stderr: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.err`),
      filterResults: filters
    });
 });
