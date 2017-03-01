@@ -3,7 +3,7 @@ var router = express.Router();
 
 var fs = require('fs');
 
-const mechaConf = require('../mechafile.json')
+var mechaConf = JSON.parse(fs.readFileSync('./mechafile.json', 'utf8'));
 
 const path2repo = require("../path2repo");
 const repo2Path = require('../repo2Path');
@@ -36,33 +36,44 @@ router.get('/:domain/:repo/:branch/:sha', function(req, res) {
    const sha = req.params.sha;
 
    const conf = mechaConf.cIDs[path2repo(domain, repo, branch)]
-   const filters = conf.filters.map(function(f){
-     try {
-        f.log = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/${f.name}.out`) || "?"
-      } catch (err) {
-        f.log = err.toString()
-      }
 
-    try {
-       f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/${f.name}.exit`) || "?"
-     } catch (err) {
-       f.exit = err.toString()
-     }
+   var locals = {
+     domain: domain, repo: repo, branch: branch, sha: sha,
+     conf: conf,
+     filters: conf.filters.map(function(f){
+       try {
+          f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.dockerrun.${f.name}.exit`)
+        } catch (err) {
+          f.exit = err.toString()
+        }
 
+        try {
+           f.cmd = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.dockerrun.${f.name}.cmd`)
+         } catch (err) {
+           f.cmd = err.toString()
+         }
 
-     return f
+        return f;
+      }),
+     'logs': {}
+   }
+
+   locals.steps = ['pre', 'dockerrun'];
+   locals.logTypes = ['exit', 'cmd', 'out', 'err'];
+
+   locals.steps.forEach(function(a){
+     locals['logs'][a] = {};
+     locals.logTypes.forEach(function(b){
+       try {
+         locals['logs'][a][b] =  fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.${a}.${b}`)
+       } catch (err) {
+         locals['logs'][a][b] =  err.toString()
+       }
+     })
    })
 
-   res.render('sha', {
-     domain: domain,
-     repo: repo,
-     sha: sha,
-     branch: branch,
-     cmd: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.cmd`),
-     stdout: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.out`),
-     stderr: fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.pre.err`),
-     filterResults: filters
-   });
+
+   res.render('sha', locals);
 });
 
 

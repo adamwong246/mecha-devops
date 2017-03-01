@@ -12,43 +12,39 @@ block content
     =" vs. "
     =sha
 
-  section
-    h4 filters
-    table
-      tbody
-        for filterResult in filterResults
-          tr
-            td
-              h5= filterResult.name
-            td
-              code= filterResult.cmd
-            td
-              if filterResult.exit == 0
-                span= "success: "
-              else
-                span= "failure: "
-
-              code= filterResult.exit
-            td
-              pre
-                code= filterResult.log
-
-  h3 force run
   form(action="/fakewebhook" method="POST")
-    input(type="text" name="sha" placeholder="sha" value=sha)
-    input(type="text" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
-    input(type="submit" value=`submit`)
+    input(type="hidden" name="sha" placeholder="sha" value=sha)
+    input(type="hidden" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
+    input(type="submit" value=`rerun this build`)
 
-  h3 command
-  code= cmd
+  table
+     thead
+       tr
+         th
+         th exit
+         th command
+         th stdout
+         th stderr
+     tbody
+       for step in steps
+         tr
+           td= step
+           for logType in logTypes
+             td
+               code= logs[step][logType]
 
-  .container
-    .item
-      h3 stout
-      pre
-        code= stdout
-
-    .item
-      h3 stderr
-      pre
-        code= stderr
+       for filter in filters
+         tr
+           td= filter.name
+           td
+             if filter.exit == 0
+               span success
+             else
+               span failure:
+               code= filter.exit
+           td
+             code= filter.cmd
+           td
+             pre
+               code= filter.log
+           td

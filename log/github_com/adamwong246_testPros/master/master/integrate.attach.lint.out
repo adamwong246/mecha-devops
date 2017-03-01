@@ -1,0 +1,4 @@
+
+> test-proj@1.0.0 lint /usr/src/app
+> eslint __tests__
+
