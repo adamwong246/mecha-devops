@@ -26,7 +26,14 @@ block content
                 each filter in cid.filters
                   tr
                     td= filter.name
-                    td= filter.exit
+
+                    td
+                     if filter.exit == 0
+                       | ✔
+                     else if Number.isInteger(Number(filter.exit))
+                       a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/${filter.name}.exit`) ❌
+                     else
+                       a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/${filter.name}.exit`) ⁉
             form(action="/fakewebhook" method="POST")
               input(type="text" name="sha" placeholder="sha" value="master")
               input(type="hidden" name="repo" value=repo)
@@ -39,34 +46,54 @@ block content
               thead
                 tr
                   th name
-                  th cmd
                   th status
               tbody
                 each postHook in cid.postHooks
                   tr
                     td= postHook.name
                     td
-                      code= postHook.cmd
-                    td= postHook.exit
+                      if postHook.exit == 0
+                        | ✔
+                      else if Number.isInteger(Number(postHook.exit))
+                        a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/${postHook.name}.exit`) ❌
+                      else
+                        a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/${postHook.name}.exit`) ⁉
+
+
             form(action='faketrigger' method="POST")
-              input(type="text" name="sha" placeholder="sha" value="master")
+              //- input(type="hidden" name="sha" placeholder="sha" value="master")
               input(type="hidden" name="repo" value=repo)
               input(type="submit" value="git fetch, pull, and deploy")
           else
             span none
   h2 all builds
 
-  p sort by integration date, deployment date or `git HEAD~n`
   table
     thead
       tr
-        th sha
+        th git heiritage
         th integration status
+        th integration time
         th deployment status
+        th deployment time
     tbody
       each build in builds
         tr
           td
             a(href=`/cid/${params.domain}/${params.repo}/${params.branch}/${build.sha}`)= build.sha
           td
+            if intExit == 0
+              | ✔
+            else if Number.isInteger(Number(intExit))
+              a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/.exit`) ❌
+            else
+              a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/.exit`) ⁉
+          td
+          td
+            if depExit == 0
+              | ✔
+            else if Number.isInteger(Number(depExit))
+              a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/.exit`) ❌
+            else
+              a(href=`/log/${params.domain}/${params.repo}/${params.branch}/${params.branch}/deploy/deploys/.exit`) ⁉
           td

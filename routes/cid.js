@@ -18,45 +18,54 @@ router.get('/:domain/:repo/:branch', function(req, res) {
   var cid2Return = mechaConf.cIDs[path2repo(domain, repo, branch)]
 
   cid2Return.filters = (cid2Return.filters || []).map(function(f){
-     try {
-       f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${branch}/integrate/tests/${f.name}.exit`)
-     } catch (err) {
-       f.exit = err.toString()
-     }
+    try {
+      f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${branch}/integrate/tests/${f.name}.exit`)
+    } catch (err) {
+      f.exit = err.toString()
+    }
     return f
   })
 
   cid2Return.postHooks = (cid2Return.postHooks || []).map(function(f){
-     try {
-       f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${branch}/deploy.dockerrun.${f.name}.exit`)
-     } catch (err) {
-       f.exit = err.toString()
-     }
+    try {
+      f.exit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${branch}/deploy.dockerrun.${f.name}.exit`)
+    } catch (err) {
+      f.exit = err.toString()
+    }
     return f
   })
 
   const builds = function(){
     try {
-     return fs.readdirSync(`./log/${domain}/${repo}/${branch}`)
-   } catch (err) {
-     return []
-   }
- }().map(function(sha){
-    // f.sha = sha;
+      return fs.readdirSync(`./log/${domain}/${repo}/${branch}`)
+    } catch (err) {
+      return []
+    }
+  }().map(function(sha){
     return {
       sha: sha,
-      result: cid2Return.filters.map(function(f){
-      try {
-        return fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.dockerrun.${f.name}.exit`)
-      } catch (err) {
-        f.out = err.toString()
-      }
-      return f;
-     }).every(function(e){
-      return e == 0
-     })
+      intExit: cid2Return.filters.map(function(f){
+        try {
+          return fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate/${f.name}.exit`)
+        } catch (err) {
+          f.out = err.toString()
+        }
+        return f;
+      }).every(function(e){
+        return e == 0
+      }),
+      depExit: cid2Return.filters.map(function(f){
+        try {
+          return fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/deploy.${f.name}.exit`)
+        } catch (err) {
+          f.out = err.toString()
+        }
+        return f;
+      }).every(function(e){
+        return e == 0
+      })
 
-  }
+    }
   })
 
   res.render('cid', {
@@ -74,17 +83,6 @@ router.get('/:domain/:repo/:branch/:sha', function(req, res) {
   const sha = req.params.sha;
 
   const conf = mechaConf.cIDs[path2repo(domain, repo, branch)]
-
-  //  console.log(exec("docker ps -a", { encoding: 'utf8' , stdio: [this.stdin, this.stdout, this.stderr] }));
-
-  //  exec('docker ps -a', (error, stdout, stderr) => {
-  //    if (error) {
-  //      console.error(`exec error: ${error}`);
-  //      return;
-  //    }
-  //    console.log(`stdout: ${stdout}`);
-  //    console.log(`stderr: ${stderr}`);
-  //  });
 
   var locals = {
     domain: domain, repo: repo, branch: branch, sha: sha,
@@ -107,20 +105,6 @@ router.get('/:domain/:repo/:branch/:sha', function(req, res) {
     }),
     'logs': {}
   }
-
-  // locals.steps = ['pre', 'dockerrun'];
-  // locals.logTypes = ['exit', 'cmd', 'out', 'err'];
-  //
-  // locals.steps.forEach(function(a){
-  //   locals['logs'][a] = {};
-  //   locals.logTypes.forEach(function(b){
-  //     try {
-  //       locals['logs'][a][b] =  fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate.${a}.${b}`)
-  //     } catch (err) {
-  //       locals['logs'][a][b] =  err.toString()
-  //     }
-  //   })
-  // })
 
   try {
     locals.integratePreExit = fs.readFileSync(`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`)

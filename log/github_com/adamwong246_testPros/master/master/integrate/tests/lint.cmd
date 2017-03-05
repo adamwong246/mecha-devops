@@ -1,1 +1,1 @@
-run,--rm=true,github_com-adamwong246_testpros/master:master,npm,run,lint
+run,-d=true,github_com-adamwong246_testpros/master:master,npm,run,lint

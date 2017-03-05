@@ -5,8 +5,8 @@ block content
     ## a *really* simple continuous integration and deployment server for codesbases which use git and docker
 
     Experimental Farm establishes a contract between developers and operations. It formalizes a pattern where git branches are protected by tests and which deploy when the branch is updated. For a given branch, EF will do 2 things:
-    - **integrate**: tentavily merge the target branch into HEAD, build docker and run integrations, recording the results by git commit
-    - **deploy**: pull changes to the HEAD, run the deployments, recording the results by git commit
+    - **integrate**: tentavily merge the target branch into HEAD, build docker and run integrations, recording the results by git commit. These tests are run in the context of a docker container.
+    - **deploy**: pull changes to the HEAD, run the deployments, recording the results by git commit. These commands are NOT performed in a docker container.
 
     EF commits the results of tests directly into the source code. If you are unable to afford a `.gitignore` file, a `.gitignore` file will be provided to you.
 
@@ -32,11 +32,20 @@ block content
               tbody
                 tr
                   td
-                    if cid.integrationResult
-                      |success
+                    if cid.integrationResult == 0
+                      | ✔
+                    else if Number.isInteger(Number(cid.integrationResult))
+                      | ❌
+                    else
+                      | ⁉
+
                   td
-                    if cid.deploymentResult
-                      |success
+                    if cid.deploymentResult == 0
+                      | ✔
+                    else if Number.isInteger(Number(cid.integrationResult))
+                      | ❌
+                    else
+                      | ⁉
                   td
                     a(href=`/cid/${repo2Path(cid.name)}/${cid.branch}`) sha
           td= cid.pullAgainst

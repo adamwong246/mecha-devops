@@ -11,6 +11,9 @@ var fakewebhook = require('./routes/fakewebhook');
 var webhook = require('./routes/webhook');
 var faketrigger = require('./routes/faketrigger');
 var trigger = require('./routes/trigger');
+
+var pkill = require('./routes/pkill');
+
 var log = require('./routes/log');
 var cid = require('./routes/cid');
 
@@ -35,7 +38,8 @@ app.use('/users', users);
 app.use('/fakewebhook', fakewebhook);
 app.use('/webhook', webhook)
 app.use('/faketrigger', faketrigger);
-app.use('/trigger', trigger)
+app.use('/trigger', trigger);
+app.use('/pkill', pkill);
 
 app.use('/log', log);
 express.static.mime.define({'text/plain': ['cmd', 'out', 'err', 'exit']});

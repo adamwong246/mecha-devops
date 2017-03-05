@@ -5,7 +5,8 @@
       "github.com:adamwong246/testPros.git#master": {
         "filters" : [
           { "name": "lint", "cmd": "npm run lint"},
-          { "name": "test", "cmd": "npm run test"}
+          { "name": "test", "cmd": "npm run test"},
+          { "name": "start", "cmd": "npm run start"}
         ],
         "postHooks":[{"name": "deploy2Personal", "cmd": "convox deploy personal"}],
         "pullAgainst": "github.com:adamwong246/testPros.git#another",

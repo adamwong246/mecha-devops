@@ -17,14 +17,16 @@ block content
     caption results
     thead
       tr
-        th step
-        th integrations
-        th deployments
+        th
+        th pre
+        th steps
+        th post
+        th forcibly run
     tbody
       tr
-        td pre
+        td integration
         td
-          |checkout and build:
+          |checkout & build:
           if integratePreExit == 0
             | ✔
           else if Number.isInteger(Number(integratePreExit))
@@ -32,54 +34,121 @@ block content
           else
             a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ⁉
         td
-          |pull and build:
-          = ' '
-          code 0
-      tr
-        td steps
+          for filter in filters
+            li
+              = filter.name
+              if filter.exit == 0
+                | ✔
+              else if Number.isInteger(Number(filter.exit))
+                a(href=`/log/${domain}/${repo}/${branch}/${sha}/integrate/tests/${filter.name}.exit`) ❌
+              else
+                form(action=`/pkill/${domain}/${repo}/${branch}/${sha}/${filter.name}` method='post')
+                  input(type="hidden" name="success" value=true)
+                  button(type="submit") 👍
+                form(action=`/pkill/${domain}/${repo}/${branch}/${sha}/${filter.name}` method='post')
+                  input(type="hidden" name="success" value=false)
+                  button(type="submit") 👎
+
         td
-          table
-            for filter in filters
-              tr
-                td= filter.name
-                td
-                  if filter.exit == 0
-                    | ✔
-                  else if Number.isInteger(Number(filter.exit))
-                    a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/tests/${filter.name}.exit`) ❌
-                  else
-                    a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/tests/${filter.name}.exit`) ⁉
-        td
-          table
-            for postHook in postHooks
-              tr
-                td= postHook.name
-                td
-                  if postHook.exit == 0
-                    | ✔
-                  else if Number.isInteger(Number(postHook.exit))
-                    a(href=`./log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ❌
-                  else
-                    a(href=`./log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ⁉
-      tr
-        td post
-        td
-          |commit:
-          = ' '
-          code 0
-        td
-          |commit:
-          = ' '
-          code 0
-      tr
-        td force run
+          |commit: ✔
         td
           form(action="/fakewebhook" method="POST")
             input(type="hidden" name="sha" placeholder="sha" value=sha)
             input(type="hidden" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
-            input(type="submit" value=`rerun this integration`)
+            input(type="submit" value='🔄')
+      tr
+        td deployment
+        td
+          |pull:
+          if integratePreExit == 0
+            | ✔
+          else if Number.isInteger(Number(integratePreExit))
+            a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ❌
+          else
+            a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ⁉
+        td
+          for postHook in postHooks
+            li
+              = postHook.name
+              if postHook.exit == 0
+                | ✔
+              else if Number.isInteger(Number(postHook.exit))
+                a(href=`/log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ❌
+              else
+                a(href=`/log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ⁉
+        td
+          |commit: ✔
         td
           form(action="/fakewebhook" method="POST")
             input(type="hidden" name="sha" placeholder="sha" value=sha)
             input(type="hidden" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
-            input(type="submit" value=`rerun this deployment`)
+            input(type="submit" value='🔄')
+
+
+    //- thead
+    //-   tr
+    //-     th step
+    //-     th integrations
+    //-     th deployments
+    //- tbody
+    //-   tr
+    //-     td pre
+    //-     td
+    //-       |checkout & build:
+    //-       if integratePreExit == 0
+    //-         | ✔
+    //-       else if Number.isInteger(Number(integratePreExit))
+    //-         a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ❌
+    //-       else
+    //-         a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ⁉
+    //-
+    //-     td
+    //-       |pull:
+    //-       if integratePreExit == 0
+    //-         | ✔
+    //-       else if Number.isInteger(Number(integratePreExit))
+    //-         a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ❌
+    //-       else
+    //-         a(href=`./log/${domain}/${repo}/${branch}/${sha}/integrate/pre.exit`) ⁉
+    //-   tr
+    //-     td steps
+    //-     td
+    //-       ul
+    //-         for filter in filters
+    //-           li
+    //-             = filter.name
+    //-             if filter.exit == 0
+    //-               | ✔
+    //-             else if Number.isInteger(Number(filter.exit))
+    //-               a(href=`/log/${domain}/${repo}/${branch}/${sha}/integrate/tests/${filter.name}.exit`) ❌
+    //-             else
+    //-               a(href=`/log/${domain}/${repo}/${branch}/${sha}/integrate/tests/${filter.name}.exit`) ⁉
+    //-     td
+    //-       ul
+    //-         for postHook in postHooks
+    //-           li
+    //-             = postHook.name
+    //-             if postHook.exit == 0
+    //-               | ✔
+    //-             else if Number.isInteger(Number(postHook.exit))
+    //-               a(href=`/log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ❌
+    //-             else
+    //-               a(href=`/log/${domain}/${repo}/${branch}/${sha}/deploy/posthooks/${postHook.name}.exit`) ⁉
+    //-   tr
+    //-     td post
+    //-     td
+    //-       |commit: ✔
+    //-     td
+    //-       |commit: ✔
+    //-   tr
+    //-     td force run
+    //-     td
+    //-       form(action="/fakewebhook" method="POST")
+    //-         input(type="hidden" name="sha" placeholder="sha" value=sha)
+    //-         input(type="hidden" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
+    //-         input(type="submit" value=`rerun this integration`)
+    //-     td
+    //-       form(action="/fakewebhook" method="POST")
+    //-         input(type="hidden" name="sha" placeholder="sha" value=sha)
+    //-         input(type="hidden" name="repo" value=`${domain.replace('_', ".")}:${repo.replace('_', "/")}.git#${branch}`)
+    //-         input(type="submit" value=`rerun this deployment`)
