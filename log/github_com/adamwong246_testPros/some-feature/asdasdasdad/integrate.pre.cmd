@@ -1,0 +1,1 @@
+rm -rf ./log/github_com/adamwong246_testPros/some-feature/asdasdasdad;  mkdir -p ./log/github_com/adamwong246_testPros/some-feature/asdasdasdad;  cd ./pen/github_com/adamwong246_testPros/some-feature &&  git fetch origin &&  git checkout asdasdasdad &&  docker build -t github_com-adamwong246_testpros/some-feature:asdasdasdad . 

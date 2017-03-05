@@ -1,0 +1,1 @@
+rm -rf ./log/github_com/adamwong246_testPros/another/master;  mkdir -p ./log/github_com/adamwong246_testPros/another/master/integrate/tests;  cd ./pen/github_com/adamwong246_testPros/another &&  git fetch origin &&  git checkout master &&  docker build -t github_com-adamwong246_testpros/another:master . 

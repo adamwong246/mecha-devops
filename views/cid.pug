@@ -4,26 +4,69 @@ block content
   p
     a(href=`/log/${params.domain}/${params.repo}/${params.branch}`) logs
   h1= repo
+  h2
+    |build @
+    = ' '
+    a(href=`/cid/${params.domain}/${params.repo}/${params.branch}/${params.branch}`) HEAD
   table
+    thead
+      tr
+        th integrations
+        th deployments
     tbody
       tr
         td
-          ul
-            each filter in cid.filters
-              li= filter.name
-          form(action="/fakewebhook" method="POST")
-            input(type="text" name="sha" placeholder="sha" value="master")
-            input(type="text" name="repo" value=repo)
-            input(type="submit" value="execute tests against SHA")
+          if cid.filters.length
+            table
+              thead
+                tr
+                  th name
+                  th status
+              tbody
+                each filter in cid.filters
+                  tr
+                    td= filter.name
+                    td= filter.exit
+            form(action="/fakewebhook" method="POST")
+              input(type="text" name="sha" placeholder="sha" value="master")
+              input(type="hidden" name="repo" value=repo)
+              input(type="submit" value="execute tests against SHA")
+          else
+            span none
         td
-          pre
-            code= cid.hook
-          form(action='faketrigger' method="POST")
-            input(type="text" name="sha" placeholder="sha" value="master")
-            input(type="text" name="repo" value=repo)
-            input(type="submit" value="git fetch, pull, and deploy")
-  h2 more builds
-  ul
-    each build in builds
-      li
-        a(href=`/cid/${params.domain}/${params.repo}/${params.branch}/${build}`)=build
+          if cid.postHooks.length
+            table
+              thead
+                tr
+                  th name
+                  th cmd
+                  th status
+              tbody
+                each postHook in cid.postHooks
+                  tr
+                    td= postHook.name
+                    td
+                      code= postHook.cmd
+                    td= postHook.exit
+            form(action='faketrigger' method="POST")
+              input(type="text" name="sha" placeholder="sha" value="master")
+              input(type="hidden" name="repo" value=repo)
+              input(type="submit" value="git fetch, pull, and deploy")
+          else
+            span none
+  h2 all builds
+
+  p sort by integration date, deployment date or `git HEAD~n`
+  table
+    thead
+      tr
+        th sha
+        th integration status
+        th deployment status
+    tbody
+      each build in builds
+        tr
+          td
+            a(href=`/cid/${params.domain}/${params.repo}/${params.branch}/${build.sha}`)= build.sha
+          td
+          td

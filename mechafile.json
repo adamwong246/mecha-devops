@@ -7,13 +7,38 @@
           { "name": "lint", "cmd": "npm run lint"},
           { "name": "test", "cmd": "npm run test"}
         ],
-        "hook": "echo DEPLOY!"
+        "postHooks":[{"name": "deploy2Personal", "cmd": "convox deploy personal"}],
+        "pullAgainst": "github.com:adamwong246/testPros.git#another",
+        "role": "collaborator",
+        "envVars": {
+          "someKey": "someVal"
+        }
       },
-      "github.com:adamwong246/dotfiles.git#master": {
+
+      "github.com:adamwong246/testPros.git#another": {
         "filters" : [
-          { "name": "foo", "cmd": "echo foo"}
+          {
+            "name": "qa", "cmd": "convox deploy integration",
+            "envVars": {
+              "port": "EFPORT"
+            },
+            "awaitHumanApproval":["qa"]
+          }
         ],
-        "hook": "echo FOO!"
+        "pullAgainst": "github.com:OpenGob/testPros.git#staging",
+        "role": "admin"
+      },
+
+      "github.com:OpenGov/testPros.git#staging": {
+        "postHooks":[{"name": "deploy", "cmd": "convox deploy staging"}],
+        "pullAgainst": "github.com:OpenGov/testPros.git#master",
+        "role": "admin"
+      },
+
+      "github.com:OpenGov/testPros.git#master": {
+        "postHooks":[{"name": "deploy", "cmd": "convox deploy production"}],
+        "role": "admin"
       }
+
     }
 }

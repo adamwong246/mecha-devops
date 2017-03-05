@@ -1,1 +1,0 @@
-run,github_com-adamwong246_testpros/master,npm,run,lint
