@@ -1,0 +1,5 @@
+npm info it worked if it ends with ok
+npm info using npm@3.10.10
+npm info using node@v6.10.0
+npm info lifecycle test-proj@1.0.0~prestart: test-proj@1.0.0
+npm info lifecycle test-proj@1.0.0~start: test-proj@1.0.0

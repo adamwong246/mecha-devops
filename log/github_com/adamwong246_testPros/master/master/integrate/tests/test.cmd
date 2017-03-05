@@ -1,1 +1,1 @@
-run,-d=true,github_com-adamwong246_testpros/master:master,npm,run,test
+run,--rm=true,--cidfile=./log/github_com/adamwong246_testPros/master/master/integrate/tests/test.dpid,github_com-adamwong246_testpros/master:master,npm,run,test

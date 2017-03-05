@@ -1,1 +1,5 @@
-75539a8b945aa05d4598a65420ec542ee9e0c6c0949bea2735261eb2312f404f
+
+> test-proj@1.0.0 start /usr/src/app
+> node server.js
+
+Running on http://localhost:8080

@@ -1,1 +1,4 @@
-54674c02f39fb518748b9cef0270cf5c08f99fd23d4ff57cd4a65cd6e834f509
+
+> test-proj@1.0.0 lint /usr/src/app
+> eslint __tests__
+

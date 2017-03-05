@@ -27,12 +27,12 @@ const mechanize = function(cid, sha, filter){
       filendir.writeFile(`${logsFolder}/integrate/pre.exit`, 0, function(){});
       const spawnedThreads = mechaConf.cIDs[cid].filters
       .map(function(fltr, ndx){
-        const runArrayArgs = ['run', '--rm=true', dockerImage].concat(fltr.cmd.split(' '));
+        const runArrayArgs = ['run', '--rm=true', `--cidfile=${logsFolder}/integrate/tests/${fltr.name}.dpid`, dockerImage].concat(fltr.cmd.split(' '));
         const dockerProcess = spawn('docker', runArrayArgs)
         dockerProcess.stdout.pipe(fs.createWriteStream(`${logsFolder}/integrate/tests/${fltr.name}.out`))
         dockerProcess.stderr.pipe(fs.createWriteStream(`${logsFolder}/integrate/tests/${fltr.name}.err`))
         dockerProcess.on('exit', (d2)=>{
-          filendir.writeFile(`${logsFolder}/integrate/tests/${fltr.name}.docker-pid`, d2.toString(), function(){})
+          // filendir.writeFile(`${logsFolder}/integrate/tests/${fltr.name}.docker-pid`, d2.toString(), function(){})
           filendir.writeFile(`${logsFolder}/integrate/tests/${fltr.name}.exit`, d2.toString(), function(){})
           filendir.writeFile(`${logsFolder}/integrate/tests/${fltr.name}.cmd`, runArrayArgs.toString(), function(){})
         })
