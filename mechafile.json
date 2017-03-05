@@ -9,11 +9,7 @@
           { "name": "start", "cmd": "npm run start"}
         ],
         "postHooks":[{"name": "deploy2Personal", "cmd": "convox deploy personal"}],
-        "pullAgainst": "github.com:adamwong246/testPros.git#another",
-        "role": "collaborator",
-        "envVars": {
-          "someKey": "someVal"
-        }
+        "pullAgainst": "github.com:adamwong246/testPros.git#another"
       },
 
       "github.com:adamwong246/testPros.git#another": {
